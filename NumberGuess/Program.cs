@@ -16,6 +16,24 @@ namespace NumberGuess
     {
         static void Main(string[] args)
         {
+            bool finish = false;
+            while (!finish)
+            {
+                guess();
+                Console.WriteLine("");
+                Console.WriteLine("Do you want to try again? Type 'N' to quit:");
+                char choice = Console.ReadKey().KeyChar;
+                Console.WriteLine("");
+                if (choice == 'n' || choice == 'N')
+                {
+                    finish = true;
+                }
+                Console.WriteLine("");
+            }           
+        }
+
+        public static void guess()
+        {
             // Create a random number for the answer to be guessed
             Random random = new Random();
             int answer = random.Next(1, 100);
@@ -33,29 +51,33 @@ namespace NumberGuess
                 Console.Write("Guess No. " + tries + ": ");
 
                 // User input
-                guess = Convert.ToInt32(Console.ReadLine());
-
-                if (guess == answer)
+                if (Int32.TryParse(Console.ReadLine(), out guess))
                 {
-                    Console.WriteLine("Congratulations! You guessed the number!");
-                }
-                else
-                {
-                    if (tries == 5)
+                    if (guess == answer)
                     {
-                        Console.WriteLine("Sorry, you have run out of attempts.");
-                        Console.WriteLine("");
-                    }
-                    else if (guess < answer)
-                    {
-                        Console.WriteLine("Your guess was too low. Try again.");
-                        Console.WriteLine("");
+                        Console.WriteLine("Congratulations! You guessed the number!");
                     }
                     else
                     {
-                        Console.WriteLine("Your guess was too high. Try again.");
-                        Console.WriteLine("");
+                        if (tries == 5)
+                        {
+                            Console.WriteLine("Sorry, you have run out of attempts.");
+                            Console.WriteLine("");
+                        }
+                        else if (guess < answer)
+                        {
+                            Console.WriteLine("Your guess was too low. Try again.");
+                            Console.WriteLine("");
+                        }
+                        else
+                        {
+                            Console.WriteLine("Your guess was too high. Try again.");
+                            Console.WriteLine("");
+                        }
                     }
+                } else
+                {
+                    Console.WriteLine("You didn't enter a valid number. Try again.");
                 }
             }
         }
